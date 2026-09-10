@@ -1,0 +1,5 @@
+# Only two, both doing real work:
+#   xlrd    reads the legacy .xls workbooks that carry the full history
+#   psycopg talks to Postgres (COPY is what makes the 2M-row load fast)
+xlrd>=2.0.1
+psycopg[binary]>=3.1

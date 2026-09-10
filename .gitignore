@@ -1,0 +1,17 @@
+# env
+.env
+
+# ingest cache of downloaded EIA workbooks / csvs
+ingest/.cache/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# node
+node_modules/
+web/.svelte-kit/
+web/build/
+.DS_Store

@@ -1,0 +1,25 @@
+# Development override: run the dashboard from source with live rebuild.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+#
+# Edit anything under web/src and Vite rebuilds inside the container - no image
+# rebuild, no restart. Only package.json changes need `--build`.
+services:
+  web:
+    build:
+      context: ./web
+      target: dev
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-oil}:${POSTGRES_PASSWORD:-oil}@db:5432/${POSTGRES_DB:-oil}
+      # Bind-mounted filesystems do not deliver inotify events reliably on
+      # macOS or Windows, so Vite polls for changes instead.
+      CHOKIDAR_USEPOLLING: "1"
+    volumes:
+      # Source is live; node_modules stays the container's own (built for
+      # Alpine) rather than being shadowed by the host's.
+      - ./web:/app
+      - web_node_modules:/app/node_modules
+    restart: "no"
+
+volumes:
+  web_node_modules:
